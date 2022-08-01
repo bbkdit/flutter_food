@@ -40,6 +40,7 @@ class _FoodPageScreenState extends State<FoodPageScreen> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 15),
+      // padding: EdgeInsets.only(bottom: 20),
       height: 270,
       // color: Colors.red,
       child: PageView.builder(
@@ -71,6 +72,10 @@ class _FoodPageScreenState extends State<FoodPageScreen> {
       matrix = Matrix4.diagonal3Values(1, currScale, 1);
       matrix = Matrix4.diagonal3Values(1, currScale, 1)
         ..setTranslationRaw(0, currTrans, 0);
+    } else {
+      var currScale = 0.8;
+      matrix = Matrix4.diagonal3Values(1, currScale, 1)
+        ..setTranslationRaw(0, _height * (1 - _scaleFactor) / 2, 1);
     }
     return Transform(
       transform: matrix,
@@ -78,7 +83,7 @@ class _FoodPageScreenState extends State<FoodPageScreen> {
         children: [
           Container(
             height: 220,
-            margin: const EdgeInsets.only(left: 5, right: 5),
+            margin: const EdgeInsets.only(left: 5, right: 5, bottom: 15),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
                 color: index.isEven
@@ -92,10 +97,22 @@ class _FoodPageScreenState extends State<FoodPageScreen> {
             alignment: Alignment.bottomCenter,
             child: Container(
               height: 120,
-              margin: const EdgeInsets.only(left: 20, right: 20),
+              margin: const EdgeInsets.only(left: 20, right: 20, bottom: 5),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
                 color: Colors.white,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0xFF42A688),
+                    offset: Offset(0, 1),
+                    blurRadius: 5.0,
+                  ),
+                  BoxShadow(
+                    color: Colors.white,
+                    offset: Offset(-5, 0),
+                    // blurRadius: 5.0,
+                  ),
+                ],
               ),
               child: Container(
                 padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
