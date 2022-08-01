@@ -1,5 +1,5 @@
-import 'dart:ffi';
-
+// import 'dart:ffi';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/wigits/icon_and_text.dart';
 import 'package:flutter_application_1/wigits/small_text.dart';
@@ -25,7 +25,7 @@ class _FoodPageScreenState extends State<FoodPageScreen> {
     pageController.addListener(() {
       setState(() {
         _currentPageValue = pageController.page!;
-        print("Current Page value: " + _currentPageValue.toString());
+        // print("Current Page value: " + _currentPageValue.toString());
       });
     });
   }
@@ -38,17 +38,32 @@ class _FoodPageScreenState extends State<FoodPageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 15),
-      // padding: EdgeInsets.only(bottom: 20),
-      height: 270,
-      // color: Colors.red,
-      child: PageView.builder(
-          controller: pageController,
-          itemCount: 5,
-          itemBuilder: (context, position) {
-            return _buildPageItem(position);
-          }),
+    return Column(
+      children: [
+        Container(
+          margin: const EdgeInsets.only(top: 15),
+          // padding: EdgeInsets.only(bottom: 20),
+          height: 270,
+          // color: Colors.red,
+          child: PageView.builder(
+              controller: pageController,
+              itemCount: 5,
+              itemBuilder: (context, position) {
+                return _buildPageItem(position);
+              }),
+        ),
+        // ignore: unnecessary_new
+        new DotsIndicator(
+          dotsCount: 5,
+          position: _currentPageValue,
+          decorator: DotsDecorator(
+            size: const Size.square(9.0),
+            activeSize: const Size(18.0, 9.0),
+            activeShape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0)),
+          ),
+        ),
+      ],
     );
   }
 
@@ -77,6 +92,7 @@ class _FoodPageScreenState extends State<FoodPageScreen> {
       matrix = Matrix4.diagonal3Values(1, currScale, 1)
         ..setTranslationRaw(0, _height * (1 - _scaleFactor) / 2, 1);
     }
+
     return Transform(
       transform: matrix,
       child: Stack(

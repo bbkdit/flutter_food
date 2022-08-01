@@ -55,7 +55,7 @@ class _MainScreenState extends State<MainScreen> {
               ],
             ),
           ),
-          FoodPageScreen(),
+          const FoodPageScreen(),
         ],
       ),
     );
