@@ -55,7 +55,10 @@ class _MainScreenState extends State<MainScreen> {
               ],
             ),
           ),
-          const FoodPageScreen(),
+          const Expanded(
+              child: SingleChildScrollView(
+            child: FoodPageScreen(),
+          ))
         ],
       ),
     );

@@ -1,4 +1,6 @@
 // import 'dart:ffi';
+// import 'dart:html';
+
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/wigits/icon_and_text.dart';
@@ -63,6 +65,137 @@ class _FoodPageScreenState extends State<FoodPageScreen> {
                 borderRadius: BorderRadius.circular(5.0)),
           ),
         ),
+        const SizedBox(
+          height: 20,
+        ),
+        Container(
+          height: 30,
+          margin: EdgeInsets.only(left: 20),
+          child: Row(
+            children: [
+              BigText(text: "Popular"),
+              const SizedBox(
+                width: 10,
+              ),
+              SmallText(
+                text: "Preparing",
+                size: 10,
+              ),
+            ],
+          ),
+        ),
+
+        //popular list view
+        Container(
+          height: 900,
+          padding: EdgeInsets.only(right: 13.0),
+          // color: Colors.blue,
+          child: Container(
+            child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: const EdgeInsets.only(
+                      left: 20,
+                    ),
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 120,
+                          width: 120,
+                          decoration: BoxDecoration(
+                              color: Colors.pink,
+                              borderRadius: BorderRadius.circular(30),
+                              image: const DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image:
+                                      AssetImage("assets/images/food1.jpg"))),
+                        ),
+                        Expanded(
+                          child: Container(
+                            height: 120,
+                            // color: Colors.pink,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(30),
+                                bottomRight: Radius.circular(30),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 10, top: 10, bottom: 10, right: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  BigText(text: "Sweet Desert"),
+                                  SmallText(text: "Testing all the foods"),
+                                  Container(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: const [
+                                        IconAndText(
+                                            icon: Icons.circle_sharp,
+                                            text: "Normal",
+                                            iconColor: Colors.green),
+                                        IconAndText(
+                                            icon: Icons.location_on,
+                                            text: "1.7Km",
+                                            iconColor: Colors.red),
+                                        IconAndText(
+                                            icon: Icons.timelapse_rounded,
+                                            text: "32min",
+                                            iconColor: Colors.green),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // color: Colors.green,
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                }
+                // itemBuilder: (BuildContext context, int index) {
+                //   return ListTile(
+                //       leading: const Icon(Icons.list),
+                //       trailing: const Text(
+                //         "GFG",
+                //         style: TextStyle(color: Colors.green, fontSize: 15),
+                //       ),
+                //       title: Text("List item $index"));
+                // },
+                ),
+          ),
+          // child: ListView.builder(
+          //     // scrollDirection: Axis.vertical,
+          //     physics: NeverScrollableScrollPhysics(),
+          //     shrinkWrap: true,
+          //     itemCount: 10,
+          //     itemBuilder: (context, index) {
+          //       return Container(
+          //         child: Row(
+          //           children: [
+          //             Container(
+          //               height: 120,
+          //               width: 120,
+          //               color: Colors.amber,
+          //             )
+          //           ],
+          //         ),
+          //       );
+          //     }),
+        )
       ],
     );
   }
