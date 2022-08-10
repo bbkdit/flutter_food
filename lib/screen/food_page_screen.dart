@@ -3,8 +3,12 @@
 
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controllers/popular_product_controller.dart';
+import 'package:flutter_application_1/data/model/product_model.dart';
+import 'package:flutter_application_1/utils/app_constants.dart';
 import 'package:flutter_application_1/wigits/icon_and_text.dart';
 import 'package:flutter_application_1/wigits/small_text.dart';
+import 'package:get/get.dart';
 
 import '../wigits/big_text.dart';
 
@@ -42,29 +46,38 @@ class _FoodPageScreenState extends State<FoodPageScreen> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          margin: const EdgeInsets.only(top: 15),
-          // padding: EdgeInsets.only(bottom: 20),
-          height: 270,
-          // color: Colors.red,
-          child: PageView.builder(
-              controller: pageController,
-              itemCount: 5,
-              itemBuilder: (context, position) {
-                return _buildPageItem(position);
-              }),
-        ),
+        GetBuilder<PopularProductController>(builder: (popularProducts) {
+          return Container(
+            margin: const EdgeInsets.only(top: 15),
+            // padding: EdgeInsets.only(bottom: 20),
+            height: 270,
+            // color: Colors.red,
+            child: PageView.builder(
+                controller: pageController,
+                itemCount: popularProducts.popularProductList.length,
+                itemBuilder: (context, position) {
+                  return _buildPageItem(
+                      position, popularProducts.popularProductList[position]);
+                }),
+          );
+        }),
+
+        GetBuilder<PopularProductController>(builder: (popularProducts) {
+          return DotsIndicator(
+            dotsCount: popularProducts.popularProductList.isEmpty
+                ? 1
+                : popularProducts.popularProductList.length,
+            position: _currentPageValue,
+            decorator: DotsDecorator(
+              size: const Size.square(9.0),
+              activeSize: const Size(18.0, 9.0),
+              activeShape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0)),
+            ),
+          );
+        }),
+
         // ignore: unnecessary_new
-        new DotsIndicator(
-          dotsCount: 5,
-          position: _currentPageValue,
-          decorator: DotsDecorator(
-            size: const Size.square(9.0),
-            activeSize: const Size(18.0, 9.0),
-            activeShape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0)),
-          ),
-        ),
         const SizedBox(
           height: 20,
         ),
@@ -200,8 +213,8 @@ class _FoodPageScreenState extends State<FoodPageScreen> {
     );
   }
 
-  Widget _buildPageItem(int index) {
-    Matrix4 matrix = new Matrix4.identity();
+  Widget _buildPageItem(int index, Products popularProduct) {
+    Matrix4 matrix = Matrix4.identity();
     if (index == _currentPageValue.floor()) {
       var currScale = 1 - (_currentPageValue - index) * (1 - _scaleFactor);
       var currTrans = _height * (1 - currScale) / 2;
@@ -238,9 +251,11 @@ class _FoodPageScreenState extends State<FoodPageScreen> {
                 color: index.isEven
                     ? const Color(0xFF42A5F5)
                     : const Color(0xFF42A688),
-                image: const DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage("assets/images/food1.jpg"))),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                      "${AppConstants.BASE_URL}/storage/app/public/product/${popularProduct.image!}"),
+                )),
           ),
           Align(
             alignment: Alignment.bottomCenter,
@@ -269,7 +284,7 @@ class _FoodPageScreenState extends State<FoodPageScreen> {
                   // mainAxisAlignment: MainAxisAlignment.start,
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    BigText(text: "Chines Side"),
+                    BigText(text: popularProduct.name!),
                     const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
